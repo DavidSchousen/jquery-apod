@@ -24,7 +24,7 @@ var apod = {
   // Application Constructor
   init: function() {
       let date = this.randomDate(new Date(1995, 5, 16), new Date());
-      //let date = "2013-06-06";
+      //let date = "2013-06-06"; //star comparison video
       var url = "https://api.nasa.gov/planetary/apod?api_key=TcfsE4U6nSnrOVtBcto9CSs3g1dvgXeuzNFgC7pj&date=" + date;
       $.ajax({
         url: url
