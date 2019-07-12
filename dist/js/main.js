@@ -10620,32 +10620,51 @@ var apod = {
     return `${y}-${m}-${d}`;
   },
 
-  // Application Constructor
+  //Injects the results of the API call into the DOM
+buildDOM: function(result) {
+  $("#apodTitle").text(result.title);
+
+  if(result.media_type === 'video') {
+    $("#apodImage").hide();
+    $("#apodVideo > iframe").attr("src", result.url).show();
+  }else{
+    $("#apodVideo").hide();
+    $("#apodImg").attr("src", result.url).attr('alt', result.title).show();
+  }
+
+  $("#apodCopyright").text("Copyright: " + result.copyright);
+  $("#apodDate").text("Date: " + result.date);
+  $("#apodDesc").text(result.explanation);
+},
+
+//Executes an AJAX call to an API.
+getRequest: function() {
+  //let date = this.randomDate(new Date(1995, 5, 16), new Date());
+  //let date = "2013-06-06"; //star comparison video
+  let _this = this;
+  let date = this.randomDate(new Date(1995, 5, 16), new Date());
+  var url = "https://api.nasa.gov/planetary/apod?api_key=TcfsE4U6nSnrOVtBcto9CSs3g1dvgXeuzNFgC7pj&date=" + date;
+  
+  $.ajax({
+      url: url
+  }).done(function(result){
+      _this.buildDOM(result);
+  }).fail(function(result){
+    console.log(result);
+  });
+},
+
+// Initialization method.
   init: function() {
-      let date = this.randomDate(new Date(1995, 5, 16), new Date());
-      //let date = "2013-06-06"; //star comparison video
-      var url = "https://api.nasa.gov/planetary/apod?api_key=TcfsE4U6nSnrOVtBcto9CSs3g1dvgXeuzNFgC7pj&date=" + date;
-      $.ajax({
-        url: url
-    }).done(function(result){
-      
-      if(result.media_type === 'video') {
-        $("#apodImg").hide();
-        $("#apodVideo > iframe").attr("src", result.url).show();
-      }else{
-        $("#apodVideo").hide();
-        $("#apodImg").attr("src", result.url).attr('alt', result.title).show();
-      }
-      
-      $("#apodTitle").text(result.title);
-      $("#apodImg").attr("src", result.url);
-      $("#apodCopyright").text("Copyright: " + result.copyright);
-      $("#apodDate").text("Date: " + date);
-      $("#apodDesc").text(result.explanation);
-    }).fail(function(data){
-      console.log(data);
-    });
+    this.getRequest();
   },
 };
 
 apod.init();
+
+/* https://learn.jquery.com/using-jquery-core/document-ready/ */
+$(function() {
+    $('#btnRandApod').on('click',function(){
+      apod.getRequest();
+    });
+});
