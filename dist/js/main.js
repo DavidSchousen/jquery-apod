@@ -10599,6 +10599,7 @@ return jQuery;
 
 var apod = {
   //Create a random date
+
   randomDate: function(start, end) {
     //Randomize the date https://gist.github.com/miguelmota/5b67e03845d840c949c4
     let date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
@@ -10659,12 +10660,25 @@ getRequest: function() {
     this.getRequest();
   },
 };
+//END OF APOD FUNC
 
 apod.init();
 
+/*document.getElementById('changeColor').addEventListener('click', 
+function(){
+  var randomColor = "";
+
+  //document.getElementById("changeColor").value 
+  //  = Math.floor(Math.random()*16777215).toString(16);
+  document.getElementById("button").style.background='#000000';
+  randomColor = Math.floor(Math.random()*16777215).toString(16);
+  
+  return randomColor;
+});//*/
+
 /* https://learn.jquery.com/using-jquery-core/document-ready/ */
 $(function() {
-    $('#btnRandApod').on('click',function(){
+    $('.button').on('click',function(){
       apod.getRequest();
     });
 });
